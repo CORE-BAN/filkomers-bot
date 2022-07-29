@@ -15,6 +15,7 @@ proxies = {
     'http': '43.255.113.232:8083',
 }
 
+
 def get_latest_pengumuman() -> bool:
     print("[GET] pengumuman..")
     try:
@@ -57,6 +58,7 @@ def get_latest_pengumuman() -> bool:
             f.close()
 
         if judul_baru != judul_lama:
+            print("[DEBUG] new pengumuman found.")
             link = semua_pengumuman[0].find('a')['href']
 
             print("[GET] latest pengumuman..")
@@ -81,6 +83,7 @@ def get_latest_pengumuman() -> bool:
                 json.dump(data_pengumuman, f)
             return True
 
+        print("[DEBUG] no new pengumuman")
         return False
 
 
@@ -88,7 +91,7 @@ def get_all_pengumuman() -> list:
     """
     all pengumuman disini maksudnya adalah 8 pengumuman teratas.
     """
-    
+
     print("[GET] all pengumuman..")
     try:
         response = requests.get(URL, proxies=proxies).text
