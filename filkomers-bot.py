@@ -2,7 +2,6 @@ import json
 import os
 
 from scrape.pengumuman_scrape import get_latest_pengumuman
-from scrape.berita_scrape import get_berita
 
 
 def check_pengumuman():
@@ -23,7 +22,7 @@ def check_pengumuman():
 
         TEXT = f" {judul} \nTanggal: {tanggal} \n\n{content} \n\n\nSumber: {link}"
 
-        WEBHOOK_DISCORD = os.environ['WEBHOOK_DISCORD']
+        # WEBHOOK_DISCORD = os.environ['WEBHOOK_DISCORD']
 
         print("[POST] sending ingfo..")
         # TODO: send message to discord

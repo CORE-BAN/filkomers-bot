@@ -4,21 +4,23 @@ import os
 import json
 
 
+URL = "https://filkom.ub.ac.id/pengumuman/"
+
+proxies = {
+    'http': '104.37.101.73:8181',
+    'http': '186.97.182.5:999',
+    'http': '188.133.173.21:8080',
+    'http': '66.29.156.100:80',
+    'http': '122.102.118.82:8080',
+    'http': '43.255.113.232:8083',
+}
+
 def get_latest_pengumuman() -> bool:
-    url = "https://filkom.ub.ac.id/pengumuman/"
-    proxies = {
-        'http': '104.37.101.73:8181',
-        'http': '186.97.182.5:999',
-        'http': '188.133.173.21:8080',
-        'http': '66.29.156.100:80',
-        'http': '122.102.118.82:8080',
-        'http': '43.255.113.232:8083',
-    }
     print("[GET] pengumuman..")
     try:
-        response = requests.get(url, proxies=proxies).text
+        response = requests.get(URL, proxies=proxies).text
     except:
-        response = requests.get(url).text
+        response = requests.get(URL).text
 
     soup = BeautifulSoup(response, 'html.parser')
     semua_pengumuman = soup.find_all('h5', class_='premium-blog-entry-title')
@@ -86,21 +88,12 @@ def get_all_pengumuman() -> list:
     """
     all pengumuman disini maksudnya adalah 8 pengumuman teratas.
     """
-
-    url = "https://filkom.ub.ac.id/pengumuman/"
-    proxies = {
-        'http': '104.37.101.73:8181',
-        'http': '186.97.182.5:999',
-        'http': '188.133.173.21:8080',
-        'http': '66.29.156.100:80',
-        'http': '122.102.118.82:8080',
-        'http': '43.255.113.232:8083',
-    }
+    
     print("[GET] all pengumuman..")
     try:
-        response = requests.get(url, proxies=proxies).text
+        response = requests.get(URL, proxies=proxies).text
     except:
-        response = requests.get(url).text
+        response = requests.get(URL).text
 
     soup = BeautifulSoup(response, 'html.parser')
     all_pengumuman = soup.find_all('h5', class_='premium-blog-entry-title')
