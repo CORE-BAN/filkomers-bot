@@ -1,12 +1,12 @@
 import json
 import os
 
-from scrape.pengumuman_scrape import get_pengumuman
+from scrape.pengumuman_scrape import get_latest_pengumuman
 from scrape.berita_scrape import get_berita
 
 
 def check_pengumuman():
-    status = get_pengumuman()
+    status = get_latest_pengumuman()
     if status:
         print("[DEBUG] new pengumuman found.")
 

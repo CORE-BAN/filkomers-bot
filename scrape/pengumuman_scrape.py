@@ -3,7 +3,8 @@ import requests
 import os
 import json
 
-def get_pengumuman():
+
+def get_latest_pengumuman():
     url = "https://filkom.ub.ac.id/pengumuman/"
     proxies = {
         'http': '104.37.101.73:8181',
@@ -82,4 +83,4 @@ def get_pengumuman():
 
 
 if "__main__" == __name__:
-    get_pengumuman()
+    get_latest_pengumuman()
