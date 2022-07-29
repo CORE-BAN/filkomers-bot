@@ -16,12 +16,58 @@ proxies = {
 
 
 def get_latest_berita() -> bool:
-    # TODO: scraping berita https://filkom.ub.ac.id/berita/
-    print("berita terkini")
+    print("[GET] berita..")
+    try:
+        response = requests.get(URL, proxies=proxies).text
+    except:
+        response = requests.get(URL).text
+
+    soup = BeautifulSoup(response, 'html.parser')
+    beritas = soup.find_all('div', class_='post')
+    judul_baru = beritas[0].text.strip().replace("\n", " - ")
+
+    if not os.path.exists('berita_update.json'):
+        print("[GET] latest berita..")
+        link = beritas[0].find('a')['href']
+
+        data_berita = {
+            "judul": judul_baru.split(" - ")[1],
+            "tanggal": judul_baru.split(" - ")[0],
+            "link": link
+        }
+
+        with open('berita_update.json', 'w') as f:
+            json.dump(data_berita, f)
+
+        return True
+
+    else:
+        with open('berita_update.json', 'r') as f:
+            data_berita = json.loads(f.read())
+            judul_lama = data_berita['judul']
+            f.close()
+
+        if judul_baru.split(" - ")[1] != judul_lama:
+            print("[DEBUG] new berita found.")
+            link = beritas[0].find('a')['href']
+
+            data_berita = {
+                "judul": judul_baru.split(" - ")[1],
+                "tanggal": judul_baru.split(" - ")[0],
+                "link": link
+            }
+
+            with open('berita_update.json', 'w') as f:
+                json.dump(data_berita, f)
+
+            return True
+
+        print("[DEBUG] no new berita found.")
+        return False
 
 
 def get_all_berita() -> list:
-    # print("[GET] all berita..")
+    print("[GET] all berita..")
     try:
         response = requests.get(URL, proxies=proxies).text
     except:
@@ -37,4 +83,4 @@ def get_all_berita() -> list:
 
 
 if __name__ == '__main__':
-    get_all_berita()
+    get_latest_berita()
