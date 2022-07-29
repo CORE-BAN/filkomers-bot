@@ -4,6 +4,9 @@ import os
 from scrape.pengumuman_scrape import get_latest_pengumuman
 from scrape.berita_scrape import get_latest_berita
 
+from bot.bot_client import send_message
+
+WEBHOOK_DISCORD = os.environ["WEBHOOK_DISCORD"]
 
 def check_pengumuman():
 
@@ -11,19 +14,20 @@ def check_pengumuman():
     judul = data['judul']
     link = data['link']
     content = data['text'].strip()
+
+    if "\n\n" in content:
+        content = content.replace("\n\n", "\n")
+
     tanggal = data['tanggal']
 
-    if len(content) > 3000:
+    if len(content) > 1500:
         print("[DEBUG] content is too long, cutting it..")
-        content = content[:3000] + '... [selengkapnya cek sumber]'
+        content = content[:1000] + '... [selengkapnya cek sumber]'
 
-    TEXT = f" {judul} \nTanggal: {tanggal} \n\n{content} \n\n\nSumber: {link}"
-
-    # WEBHOOK_DISCORD = os.environ['WEBHOOK_DISCORD']
+    TEXT = f"[PENGUMUMAN] \n{judul} \nTanggal: {tanggal} \n\n{content} \n\n\nSumber: {link}"
 
     print("[POST] sending pengumuman..")
-    # TODO: send message to discord
-    # send_message(TEXT, WEBHOOK_DISCORD)
+    send_message(TEXT, WEBHOOK_DISCORD)
     print("[DEBUG] pengumuman sent.")
 
 
@@ -33,12 +37,10 @@ def check_berita():
     tanggal = data['tanggal']
     link = data['link']
 
-    TEXT = f" {judul} \nTanggal: {tanggal} \n\n\nSumber: {link}"
-
-    # WEBHOOK_DISCORD = os.environ['WEBHOOK_DISCORD']
+    TEXT = f"[BERITA] \n{judul} \nTanggal: {tanggal} \n\nSumber: {link}"
 
     print("[POST] sending berita..")
-    # send_message(TEXT, WEBHOOK_DISCORD)
+    send_message(TEXT, WEBHOOK_DISCORD)
     print("[DEBUG] berita sent.")
 
 
