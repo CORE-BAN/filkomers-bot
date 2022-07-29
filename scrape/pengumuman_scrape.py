@@ -4,7 +4,7 @@ import os
 import json
 
 
-def get_latest_pengumuman():
+def get_latest_pengumuman() -> bool:
     url = "https://filkom.ub.ac.id/pengumuman/"
     proxies = {
         'http': '104.37.101.73:8181',
@@ -82,5 +82,39 @@ def get_latest_pengumuman():
         return False
 
 
+def get_all_pengumuman() -> list:
+    """
+    all pengumuman disini maksudnya adalah 8 pengumuman teratas.
+    """
+
+    url = "https://filkom.ub.ac.id/pengumuman/"
+    proxies = {
+        'http': '104.37.101.73:8181',
+        'http': '186.97.182.5:999',
+        'http': '188.133.173.21:8080',
+        'http': '66.29.156.100:80',
+        'http': '122.102.118.82:8080',
+        'http': '43.255.113.232:8083',
+    }
+    print("[GET] all pengumuman..")
+    try:
+        response = requests.get(url, proxies=proxies).text
+    except:
+        response = requests.get(url).text
+
+    soup = BeautifulSoup(response, 'html.parser')
+    all_pengumuman = soup.find_all('h5', class_='premium-blog-entry-title')
+
+    all_pengumuman_text = [pengumuman.text.strip()
+                           for pengumuman in all_pengumuman]
+
+    return all_pengumuman_text
+
+
+def test_get_all_pengumuman():
+    semua_pengumuman = get_all_pengumuman()
+    print(len(semua_pengumuman))
+
+
 if "__main__" == __name__:
-    get_latest_pengumuman()
+    test_get_all_pengumuman()
