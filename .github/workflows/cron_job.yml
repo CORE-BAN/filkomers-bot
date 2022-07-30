@@ -1,4 +1,4 @@
-name: Update Pengumuman
+name: Update Pengumuman dan Berita
 
 on:
   push:
