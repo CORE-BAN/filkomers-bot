@@ -19,3 +19,5 @@ Fungsi utamanya adalah mengecek https://filkom.ub.ac.id setiap N jam sekali (bis
 4. Namenya diisi `DISCORD_WEBHOOK` dan valuenya adalah link webhook yang sudah didapatkan dari langkah sebelumnya
 
 Secara default, schedule cron jobnya disetting setiap dua jam sekali.
+
+versi telegram: https://t.me/ingfofilkomub
